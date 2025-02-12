@@ -1,0 +1,256 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #F1F0ED;
+  font-family: 'Basic Sans';
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+.bar {
+  border-radius: 10px;
+}
+
+.x-axis-grid text {
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'molto';
+  color: #78524E;
+}
+
+#scrollContainer {
+  width: 100vw;
+  overflow: scroll;
+}
+
+.navigation {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
+}
+
+.navigationBtn {
+  margin: 5px;
+  padding: 8px 10px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #f0f0f0;
+  font-weight: bold;
+  font-family: 'Basic Sans'
+}
+
+.era {
+  position: fixed;
+  width: 40%;
+  bottom: 65px;
+  left: 60px;
+}
+
+.keys {
+  position: fixed;
+  bottom: 65px;
+  right: 60px;
+  display: flex;
+  gap: 15px;
+  width: 60%;
+  justify-content: flex-end;
+}
+
+.key_features {
+  width: 22%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 28px 15px;
+  border: 1px solid rgb(204, 204, 204);
+  border-radius: 5px;
+  background: rgb(240, 240, 240);
+  gap: 8px;
+}
+
+.eraInfo {
+  font-family: 'Basic Sans'
+}
+
+.eraName {
+  font-family: 'molto';
+  font-weight: 700;
+  color: black;
+  font-size: 46px;
+}
+
+.key_features > div:first-child {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.key_features > div:nth-child(2) {
+  font-size: 15px;
+}
+
+.key_features:nth-of-type(2) {
+  width: 23%;
+}
+
+.key_features:nth-of-type(3) {
+  width: 27%;
+}
+
+.composer-name {
+  pointer-events: none;
+}
+
+.popup {
+  pointer-events: none;
+  cursor: none;
+  position: absolute;
+  background: white;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+  z-index: 1000;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.popup > i {
+  font-size: 1.1em;
+}
+
+.popup > div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.popup1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #272727a1;
+  backdrop-filter: blur(3px);
+  z-index: 10000;
+  background-blend-mode: multiply;
+}
+
+.clickBox {
+  gap: 50px;
+  padding: 30px;
+  box-sizing: border-box;
+  background: white;
+  width: 1000px;
+  height: 560px;
+  border-radius: 20px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.clickBox > img {
+  height: 80%;
+  border-radius: 50%;
+}
+
+.clickBox_Info {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.composerInfo > div:first-child {
+  font-family: 'molto';
+  font-weight: 800;
+  font-size: 34px;
+}
+
+.composerInfo > div:nth-child(2) {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.bar {
+  cursor: none; /* Hide the default cursor when hovering */
+}
+
+.domain {
+  stroke: none;
+}
+
+.line {
+  border: 1px #cec6c5 solid;
+  position: absolute;
+  width: 100%;
+  bottom: 270px;
+}
+
+.line_top {
+  border: 1px #cec6c5 solid;
+  position: absolute;
+  width: 100%;
+  top: 160px;
+}
+
+.line_left {
+  position: absolute;
+  border: 2px #cec6c5 solid;
+  height: 524px;
+  left: 24px;
+  top: 160px;
+  z-index: -1;
+}
