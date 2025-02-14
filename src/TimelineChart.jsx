@@ -5,7 +5,8 @@ import Era from "./Era";
 
 const TimelineChart = ({ csvFile, eraFile }) => {
   const popupRef = useRef(null);
-  
+  const scrollContainerRef = useRef(null);
+
   const [data, setData] = useState([]);
 
   const [currentEra, setCurrentEra] = useState("Baroque"); // Default to the first era
@@ -19,6 +20,21 @@ const TimelineChart = ({ csvFile, eraFile }) => {
   const containerRef = useRef();
   const eraPositions = useRef({}); // Store positions for each era
   const colors = ["#BB5223", "#018079", "#1963BE", "#D2AB6A"];
+
+  useEffect(() => {
+    const scrollContainer = scrollContainerRef.current;
+
+    const handleWheelScroll = (event) => {
+      event.preventDefault(); // Prevent vertical scroll
+      scrollContainer.scrollLeft += event.deltaY; // Convert y to x scroll
+    };
+
+    scrollContainer.addEventListener('wheel', handleWheelScroll);
+
+    return () => {
+      scrollContainer.removeEventListener('wheel', handleWheelScroll);
+    };
+  }, []);
 
   // Load CSV file
   useEffect(() => {
@@ -315,7 +331,10 @@ const TimelineChart = ({ csvFile, eraFile }) => {
   return (
     <div 
     id = "scrollContainer"
-    ref={containerRef}>
+    ref={(el) => {
+      containerRef.current = el;
+      scrollContainerRef.current = el;
+    }}>
       {/* Era Infos */}
       <Era currentEra={currentEra} eraInfo={eraInfo} />
 
