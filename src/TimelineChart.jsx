@@ -21,6 +21,7 @@ const TimelineChart = ({ csvFile, eraFile }) => {
   const eraPositions = useRef({}); // Store positions for each era
   const colors = ["#BB5223", "#018079", "#1963BE", "#D2AB6A"];
 
+  // Vertical Scrolling
   useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
 
@@ -72,6 +73,7 @@ const TimelineChart = ({ csvFile, eraFile }) => {
     });
   }, [csvFile, eraFile]);
 
+  // For navigation
   const handleScroll = () => {
     const scrollContainer = document.getElementById("scrollContainer");
     const scrollLeft = scrollContainer.scrollLeft;
@@ -96,6 +98,7 @@ const TimelineChart = ({ csvFile, eraFile }) => {
     };
   }, []);
 
+
 // Click feature
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -115,7 +118,6 @@ const TimelineChart = ({ csvFile, eraFile }) => {
     };
   }, []);
   
-
   // Hover feature
   const updateHoverPosition = (event) => {
     requestAnimationFrame(() => {
@@ -130,8 +132,6 @@ const TimelineChart = ({ csvFile, eraFile }) => {
       }
     });
   };
-  
-  
 
   // D3.js customization
   useEffect(() => {
@@ -377,8 +377,6 @@ const TimelineChart = ({ csvFile, eraFile }) => {
           Click for more info! <i className="fa-regular fa-hand-pointer"></i>
         </div>
       )}
-
-
 
       {selectedComposer && (
         <div className="popup1" onClick={() => setSelectedComposer(null)}>

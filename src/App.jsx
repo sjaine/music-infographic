@@ -1,5 +1,6 @@
 import React from "react";
 import TimelineChart from "./TimelineChart";
+import Map from "./Maps";
 
 const App = () => {
   return (

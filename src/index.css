@@ -254,3 +254,19 @@ button:focus-visible {
   top: 160px;
   z-index: -1;
 }
+
+.regionBox {
+  position: fixed;
+  bottom: 230px;
+  padding: 10px;
+  border: 1px solid rgb(204, 204, 204);
+  border-radius: 5px;
+  background: rgb(240, 240, 240);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.key_features:nth-of-type(2) {
+  cursor: pointer;
+}
