@@ -26,7 +26,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background-color: #F1F0ED;
-  font-family: 'Basic Sans';
+  font-family: "basic-sans", sans-serif;
 }
 
 h1 {
@@ -84,7 +84,7 @@ button:focus-visible {
   border-radius: 5px;
   background: #f0f0f0;
   font-weight: bold;
-  font-family: 'Basic Sans'
+  font-family: "basic-sans", sans-serif;
 }
 
 .era {
@@ -118,7 +118,7 @@ button:focus-visible {
 }
 
 .eraInfo {
-  font-family: 'Basic Sans'
+  font-family: "basic-sans", sans-serif;
 }
 
 .eraName {
