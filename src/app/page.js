@@ -1,57 +1,41 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 export default function Home() {
-    const [mood, setMood] = useState("");
-    const [results, setResults] = useState(null); // Store JSON response
-    const [loading, setLoading] = useState(false);
+    const [moodCounts, setMoodCounts] = useState({});
 
-    async function fetchMusic() {
-        if (!mood) return;
-        setLoading(true);
-        try {
-            const response = await axios.get(`/api/recommend?mood=${mood}`);
-            setResults(response.data); // Store response as JSON
-            console.log(results);
-        } catch (error) {
-            console.error("API Error:", error.response?.data || error.message);
-            setResults({ error: "Failed to fetch data" });
+    useEffect(() => {
+        async function fetchMoodCounts() {
+            try {
+                const response = await fetch('/api/recommend');
+                const data = await response.json();
+                setMoodCounts(data.moodCounter || {});
+            } catch (error) {
+                console.error("❌ Failed to fetch mood counts:", error);
+            }
         }
-        setLoading(false);
-    }
+        fetchMoodCounts();
+    }, []);
 
     return (
-        <div style={{ textAlign: "center", padding: "20px" }}>
-            <h1>Classical Music Recommendation (JSON View)</h1>
-            <input
-                type="text"
-                placeholder="Enter a mood (e.g., lonely)"
-                value={mood}
-                onChange={(e) => setMood(e.target.value)}
-                style={{ padding: "10px", fontSize: "16px", marginRight: "10px" }}
-            />
-            <button onClick={fetchMusic} style={{ padding: "10px", fontSize: "16px" }}>
-                Search
+        <section className="flex flex-col justify-center items-center h-screen w-full gap-[56px]">
+            <h1 className="header text-4xl">How are you feeling today?</h1>
+
+            <div className="presets flex gap-[70px]">
+                {['happy', 'calm', 'gloomy', 'excited', 'anger', 'confused'].map(mood => (
+                    <a key={mood} href={`/recommendations?mood=${mood}`} className="bg-cover flex justify-start items-end p-3 text-2xl"
+                       style={{ backgroundImage: `url(/bc/${mood}.png)`, width: '155px', height: '155px', borderRadius: '16px' }}>
+                        {mood.charAt(0).toUpperCase() + mood.slice(1)}
+                    </a>
+                ))}
+            </div>
+
+            <button className="mt-8 border rounded-full border-white px-5 py-2 flex gap-[10px]">
+                <p>...or just jot down whatever’s on your mind</p>
+                <Image src="/return.svg" alt="return btn" width={20} height={20} />
             </button>
-
-            {loading && <p>Loading...</p>}
-
-            {results && (
-                <pre
-                    style={{
-                        textAlign: "left",
-                        backgroundColor: "#f4f4f4",
-                        padding: "15px",
-                        borderRadius: "5px",
-                        marginTop: "20px",
-                        overflowX: "auto",
-                    }}
-                >
-                    {JSON.stringify(results, null, 2)}
-                </pre>
-            )}
-        </div>
+        </section>
     );
 }

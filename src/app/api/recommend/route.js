@@ -31,7 +31,7 @@ async function getSpotifyToken() {
 
 // Fetch music recommendations from Google Gemini API
 async function getMusicRecommendations(mood) {
-    const prompt = `List 10 classical music pieces that evoke the mood '${mood}'. Only provide the title and composer, each on a new line, without numbers, dots, or extra formatting.`;
+    const prompt = `List 9 classical music pieces that evoke the mood '${mood}'. Only provide the title and composer, each on a new line, without numbers, dots, or extra formatting.`;
 
     console.log(`🔹 Fetching music recommendations for mood: ${mood}`);
     try {

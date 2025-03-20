@@ -32,3 +32,88 @@ body {
   font-weight: 600;
   font-style: normal;
 }
+
+.recommendations-container {
+  text-align: center;
+  color: white;
+  background-color: black;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.arrow {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.left {
+  position: absolute;
+  left: 100px;
+  z-index: 5;
+}
+
+.right {
+  position: absolute;
+  right: 100px;
+  z-index: 5;
+}
+
+.circular-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  margin-top: 400px;
+}
+
+.circle {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.album {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.album.selected {
+  transform: scale(1.2);
+}
+
+.album-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.info-box {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
