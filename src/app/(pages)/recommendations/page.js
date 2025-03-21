@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import SpotifyEmbed from "@/app/(components)/SpotifyEmbed"
 
 export default function RecommendationsPage() {
     const searchParams = useSearchParams();
@@ -21,7 +22,7 @@ export default function RecommendationsPage() {
                 const response = await fetch(`/api/recommend?mood=${mood}`);
                 const data = await response.json();
                 console.log("✅ Fetched Recommendations:", data);
-                setRecommendations(data.length ? data : []);
+                setRecommendations(data.length ? data.slice(0, 10) : []); 
             } catch (err) {
                 setError(err.message);
                 setRecommendations([]);
@@ -32,23 +33,23 @@ export default function RecommendationsPage() {
         if (mood) fetchRecommendations();
     }, [mood]);
 
-    const radius = 600; 
-    const angleStep = recommendations.length > 1 ? Math.PI / (recommendations.length - 1) : 0;
+    const radius = 550; 
+    const angleStep = (Math.PI * 2) / 10; 
+    const initialRotation = -90; 
 
     const handleNext = () => {
-        setRotation((prev) => prev - (360 / recommendations.length)); 
+        setRotation((prev) => prev - 36); 
         setSelectedIndex((prev) => (prev + 1) % recommendations.length);
     };
 
     const handlePrev = () => {
-        setRotation((prev) => prev + (360 / recommendations.length)); 
+        setRotation((prev) => prev + 36);
         setSelectedIndex((prev) => (prev - 1 + recommendations.length) % recommendations.length);
     };
 
     return (
         <div className="recommendations-container">
-            <h1>Recommendations for "{mood}"</h1>
-            {loading && <p>Loading recommendations...</p>}
+            {loading && <p className="search">Searching for the classical music...</p>}
             {error && <p style={{ color: 'red' }}>{error}</p>}
 
             {recommendations.length > 0 && (
@@ -58,25 +59,23 @@ export default function RecommendationsPage() {
                     <div className="circular-container">
                         <motion.div
                             className="circle"
-                            animate={{ rotate: rotation }} // `circle` 자체를 회전
+                            animate={{ rotate: rotation + initialRotation }} 
                             transition={{ duration: 0.5 }}
                         >
                             {recommendations.map((track, index) => {
-                                const angle = index * angleStep - Math.PI / 1;
+                                const angle = index * angleStep;
                                 const x = Math.cos(angle) * radius;
                                 const y = Math.sin(angle) * radius;
                                 return (
                                     <motion.div
                                         key={index}
-                                        className={`album ${selectedIndex === index ? 'selected' : ''}`}
+                                        className="album"
                                         style={{
                                             position: 'absolute',
                                             left: `calc(50% + ${x}px)`,
                                             top: `calc(50% + ${y}px)`,
-                                            transform: `translate(-50%, -50%) rotate(${-rotation}deg)`, // 개별 앨범이 회전 보정
-                                            transformOrigin: 'center'
+                                            transform: `translate(-50%, -50%) rotate(${-rotation - initialRotation}deg)`, 
                                         }}
-                                        onClick={() => setSelectedIndex(index)}
                                     >
                                         <img src={track.album_cover} alt={track.title} className="album-image" />
                                     </motion.div>
@@ -89,17 +88,22 @@ export default function RecommendationsPage() {
                 </div>
             )}
 
+            <div className="black-screen"></div>
+
             <AnimatePresence>
-                {recommendations.length > 0 && selectedIndex !== null && (
+                {selectedIndex !== null && (
                     <motion.div 
                         className="info-box"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 20 }}
                     >
-                        <h2>{recommendations[selectedIndex]?.title}</h2>
-                        <p>{recommendations[selectedIndex]?.artist}</p>
-                        <p>{recommendations[selectedIndex]?.album}</p>
+                        <h2 className="title">{recommendations[selectedIndex]?.title}</h2>
+                        <br />
+                        <p className="artist">{recommendations[selectedIndex]?.artist}</p>
+                        <p className="artist">{recommendations[selectedIndex]?.album}</p>
+                        <br />
+                        <SpotifyEmbed spotifyUrl={recommendations[selectedIndex]?.spotify_url} />
                     </motion.div>
                 )}
             </AnimatePresence>

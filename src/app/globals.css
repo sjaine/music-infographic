@@ -37,11 +37,12 @@ body {
   text-align: center;
   color: white;
   background-color: black;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+  height: 100vh;
 }
 
 .carousel-wrapper {
@@ -79,7 +80,7 @@ body {
   width: 100vw;
   height: 100vh;
   position: relative;
-  margin-top: 400px;
+  margin-top: 700px;
 }
 
 .circle {
@@ -94,8 +95,8 @@ body {
 
 .album {
   position: absolute;
-  width: 150px;
-  height: 150px;
+  width: 180px;
+  height: 180px;
   cursor: pointer;
   transition: transform 0.3s ease;
 }
@@ -112,8 +113,29 @@ body {
 }
 
 .info-box {
-  margin-top: 20px;
-  padding: 15px;
-  background: rgba(255, 255, 255, 0.1);
+  margin-top: 200px;
+  padding: 20px;
   border-radius: 10px;
+  position: absolute;
+  width: 480px;
+}
+
+.black-screen {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 40%, #000 100%);
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.artist {
+  font-size: 16px;
+}
+
+.search {
+  font-size: 46px;
 }
