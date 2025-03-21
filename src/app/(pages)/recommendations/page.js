@@ -33,7 +33,7 @@ export default function RecommendationsPage() {
         if (mood) fetchRecommendations();
     }, [mood]);
 
-    const radius = 550; 
+    const radius = 580; 
     const angleStep = (Math.PI * 2) / 10; 
     const initialRotation = -90; 
 
