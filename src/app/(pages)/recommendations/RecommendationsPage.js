@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import SpotifyEmbed from "../../(components)/SpotifyEmbed"
+import SpotifyEmbed from "@/app/(components)/SpotifyEmbed"
 
 export default function RecommendationsPage() {
     const searchParams = useSearchParams();
