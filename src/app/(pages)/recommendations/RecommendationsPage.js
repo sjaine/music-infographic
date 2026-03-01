@@ -4,10 +4,13 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import SpotifyEmbed from "../../(components)/SpotifyEmbed.js";
+import { useLogs } from "../../(components)/LogContext";
 
 export default function RecommendationsPage() {
+    const { addLog, setLogs } = useLogs(); 
     const searchParams = useSearchParams();
     const mood = searchParams.get('mood');
+    
     const [recommendations, setRecommendations] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -15,22 +18,45 @@ export default function RecommendationsPage() {
     const [rotation, setRotation] = useState(0);
 
     useEffect(() => {
-        async function fetchRecommendations() {
-            setLoading(true);
-            setError(null);
-            try {
-                const response = await fetch(`/api/recommend?mood=${mood}`);
-                const data = await response.json();
-                console.log("✅ Fetched Recommendations:", data);
-                setRecommendations(data.length ? data.slice(0, 10) : []); 
-            } catch (err) {
-                setError(err.message);
-                setRecommendations([]);
-            } finally {
+        if (!mood) return;
+
+        setLoading(true);
+        setError(null);
+        setRecommendations([]);
+        addLog(`🚀 Analyzing your mood: "${mood}"...`);
+
+        const eventSource = new EventSource(`/api/recommend?mood=${encodeURIComponent(mood)}`);
+
+        eventSource.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+
+            if (data.type === 'log') {
+                addLog(data.content);
+            } 
+            else if (data.type === 'result') {
+                addLog("✅ Curated your personal playlist!");
+                const results = data.content.length ? data.content.slice(0, 10) : [];
+                setRecommendations(results);
                 setLoading(false);
+                eventSource.close(); 
+            } 
+            else if (data.type === 'error') {
+                setError(data.content);
+                addLog(`❌ Error: ${data.content}`);
+                setLoading(false);
+                eventSource.close();
             }
-        }
-        if (mood) fetchRecommendations();
+        };
+
+        eventSource.onerror = (err) => {
+            console.error("SSE Connection Error:", err);
+            eventSource.close();
+            setLoading(false);
+        };
+
+        return () => {
+            eventSource.close();
+        };
     }, [mood]);
 
     const radius = 580; 
@@ -38,19 +64,24 @@ export default function RecommendationsPage() {
     const initialRotation = -90; 
 
     const handleNext = () => {
+        if (recommendations.length === 0) return;
         setRotation((prev) => prev - 36); 
         setSelectedIndex((prev) => (prev + 1) % recommendations.length);
     };
 
     const handlePrev = () => {
+        if (recommendations.length === 0) return;
         setRotation((prev) => prev + 36);
         setSelectedIndex((prev) => (prev - 1 + recommendations.length) % recommendations.length);
     };
 
     return (
         <div className="recommendations-container">
-            {loading && <p className="search">Searching for the classical music...</p>}
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {loading && recommendations.length === 0 && (
+                <p className="search">Analyzing your mood and finding music...</p>
+            )}
+            
+            {error && <p style={{ color: 'red', textAlign: 'center', marginTop: '20px' }}>{error}</p>}
 
             {recommendations.length > 0 && (
                 <div className="carousel-wrapper">
@@ -91,7 +122,7 @@ export default function RecommendationsPage() {
             <div className="black-screen"></div>
 
             <AnimatePresence>
-                {selectedIndex !== null && (
+                {(recommendations.length > 0 && selectedIndex !== null) && (
                     <motion.div 
                         className="info-box"
                         initial={{ opacity: 0, y: 20 }}
@@ -110,5 +141,3 @@ export default function RecommendationsPage() {
         </div>
     );
 }
-
-

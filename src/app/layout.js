@@ -1,5 +1,8 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { LogProvider } from "./(components)/LogContext";
+import ConsolePanel from "./(components)/ConsolePanel";
+import ConsoleToggle from "./(components)/ConsoleToggle";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +28,13 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <LogProvider>
+          {children}
+          <div className="fixed top-5 right-5 z-[9999] flex flex-col gap-4">
+            <ConsoleToggle />
+            <ConsolePanel />
+          </div>
+        </LogProvider>
       </body>
     </html>
   );
